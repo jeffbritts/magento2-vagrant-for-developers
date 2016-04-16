@@ -59,13 +59,14 @@ if [ ! -d ${magento_ce_dir} ]; then
         git config --global diff.renamelimit 5000
     fi
     # Check out CE repository
+    magento_branch=$(bash "${vagrant_dir}/scripts/get_config_value.sh" "repository_url_branch")
     repository_url_ce=$(bash "${vagrant_dir}/scripts/get_config_value.sh" "repository_url_ce")
-    git clone ${repository_url_ce} ${magento_ce_dir}
+    git clone ${repository_url_ce} -b ${magento_branch} --single-branch ${magento_ce_dir}
     # Check out EE repository
     # By default EE repository is not specified and EE project is not checked out
     repository_url_ee=$(bash "${vagrant_dir}/scripts/get_config_value.sh" "repository_url_ee")
     if [ -n "${repository_url_ee}" ]; then
-        git clone ${repository_url_ee} ${magento_ee_dir}
+        git clone ${repository_url_ee} -b ${magento_branch} --single-branch ${magento_ee_dir}
     fi
 fi
 
